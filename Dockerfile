@@ -13,4 +13,5 @@ RUN dism.exe /online /enable-feature /all /featurename:iis-webserver /NoRestart
 RUN echo "Hello World - Dockerfile" > c:\inetpub\wwwroot\index.html
 
 # Sets a command or process that will run each time a container is run from the new image.
-CMD [ "cmd" ]
+#CMD [ "cmd" ]
+CMD ["java", "c:/HelloWorld.java"]
