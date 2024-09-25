@@ -2,10 +2,11 @@
 
 # Indicates that the windowsservercore image will be used as the base image.
 #FROM run mcr.microsoft.com/windows/servercore:ltsc2019
-FROM mcr.microsoft.com/windows/servercore:ltsc2019
+#FROM mcr.microsoft.com/windows/servercore:ltsc2019
+FROM microsoft/windowsservercore:latest
 
 # Metadata indicating an image maintainer.
-LABEL maintainer="jshelton@contoso.com"
+LABEL maintainer="duarte12@hotmail.it"
 
 # Uses dism.exe to install the IIS role.
 RUN dism.exe /online /enable-feature /all /featurename:iis-webserver /NoRestart
