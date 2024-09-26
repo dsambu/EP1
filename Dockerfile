@@ -1,8 +1,21 @@
-# Our JRE image is minimal: Only Alpine, gcompat and a stripped down JRE
-FROM base as jre
-LABEL org.opencontainers.image.description="Minimal OpenJDK JRE on Alpine Linux"
+# Sample Dockerfile
 
-COPY --from=install /install/jre/ ${JAVA_HOME}/
+# Indicates that the windowsservercore image will be used as the base image.
+#FROM mcr.microsoft.com/windows/servercore:ltsc2019
+FROM openjdk:21
+# Metadata indicating an image maintainer.
+#LABEL maintainer="duarte12@hotmail.it"
 
-# Typically, only amd64 is tested in CI: Run a command to ensure binaries match current arch.
-RUN java -version
+WORKDIR /app
+
+COPY HelloWorld.class /app
+
+# Uses dism.exe to install the IIS role.
+#RUN dism.exe /online /enable-feature /all /featurename:iis-webserver /NoRestart
+
+# Creates an HTML file and adds content to this file.
+#RUN echo "Hello World - Dockerfile" > c:\inetpub\wwwroot\index.html
+
+# Sets a command or process that will run each time a container is run from the new image.
+#CMD [ "cmd" ]
+CMD ["java", "HelloWorld"]
