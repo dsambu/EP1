@@ -2,7 +2,8 @@
 
 # Indicates that the windowsservercore image will be used as the base image.
 #FROM mcr.microsoft.com/windows/servercore:ltsc2019
-FROM scratch
+FROM ubuntu:20.04
+#FROM scratch
 # Metadata indicating an image maintainer.
 LABEL maintainer="duarte12@hotmail.it"
 
