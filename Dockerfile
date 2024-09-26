@@ -1,21 +1,21 @@
-# Sample Dockerfile
+FROM alpine:latest
 
-# Indicates that the windowsservercore image will be used as the base image.
-#FROM mcr.microsoft.com/windows/servercore:ltsc2019
-FROM openjdk:21
-# Metadata indicating an image maintainer.
-#LABEL maintainer="duarte12@hotmail.it"
+ENV JAVA_HOME=/usr/lib/jdk
+ENV PATH=${PATH}:${JAVA_HOME}/bin
 
-WORKDIR /app
+# Default to UTF-8 file.encoding
+ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en' LC_ALL='en_US.UTF-8'
 
-COPY HelloWorld.class /app
+# (Optional) Add extra packages for fontconfig and ttf-dejavu to support server-side image generation
+RUN apk add --no-cache fontconfig libretls musl-locales musl-locales-lang ttf-dejavu tzdata zlib \
+    && rm -rf /var/cache/apk/*
 
-# Uses dism.exe to install the IIS role.
-#RUN dism.exe /online /enable-feature /all /featurename:iis-webserver /NoRestart
+# Download and extract JDK 17
+RUN wget -nv -O jdk.tar.gz https://aka.ms/download-jdk/microsoft-jdk-17-alpine-x64.tar.gz && \
+    mkdir $JAVA_HOME && \
+    tar xf jdk.tar.gz -C $JAVA_HOME --strip-components 1 --no-same-owner
 
-# Creates an HTML file and adds content to this file.
-#RUN echo "Hello World - Dockerfile" > c:\inetpub\wwwroot\index.html
+# Copy the application
+COPY app.jar /app.jar
 
-# Sets a command or process that will run each time a container is run from the new image.
-#CMD [ "cmd" ]
-CMD ["java", "HelloWorld"]
+CMD [ "java", "-jar", "/app.jar" ]
